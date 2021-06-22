@@ -5,18 +5,25 @@ const CODES = {
   Z: 90,
 };
 
-function toCell() {
-  return `<div class="cell" contenteditable></div>`;
+function toCell(_, index) {
+  return `<div class="cell" contenteditable data-col="${index + 1}"></div>`;
 }
 
-function toColumn(col) {
-  return `<div class="column">${col}</div>`;
+function toColumn(col, index) {
+  return `
+    <div class="column" data-type="resizable" data-col="${index + 1}">
+      ${col}
+      <div class="col-resize" data-resize='col'></div>
+    </div>`;
 }
 
 function createRow(index, content) {
+  const resize = index + "<div class='row-resize' data-resize='row'></div>";
   return `
-    <div class="row">
-      <div class="row-info">${index ? index : ""}</div>
+    <div class="row" ${index ? "data-type='resizable'" : ""}>
+      <div class="row-info">
+        ${index ? resize : ""}
+      </div>
       <div class="row-data">${content}</div>
     </div>
   `;
